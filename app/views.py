@@ -1,13 +1,15 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-from app import app
+from app import app, db
 from app.models import Product
 
 from PIL import ImageFont, Image, ImageOps, ImageDraw
 import urllib2 as urllib
 import xml.etree.ElementTree as ET
 import io
+import random  
+
 from flask import Flask, send_file
 from StringIO import StringIO
 
@@ -101,6 +103,12 @@ def serve_image(img):
     img.save(img_io, 'PNG')
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
+
+@app.route('/api/get_image/random/', methods=['GET'])
+def get_rand_image():
+    rand = random.randrange(0, db.session.query(Product).count())   
+    sku = db.session.query(Product)[rand].sku
+    return get_image(sku)
 
 @app.route('/api/get_image/<string:sku>/', methods=['GET'])
 def get_image(sku):
