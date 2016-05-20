@@ -1,1 +1,5 @@
+db_repository/
+*.xml.gz
+*.db
+*.xml
 *.pyc
