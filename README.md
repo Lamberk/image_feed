@@ -1,5 +1,6 @@
 # image_feed
 
+- git clone https://github.com/Lamberk/image_feed.git
 - virtualenv flask
 - . flask/bin/activate
 - pip install -r requirements.txt
