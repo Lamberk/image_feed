@@ -6,7 +6,7 @@
 - pip install -r requirements.txt
 - python db_create.py
 - python db_migrate.py
-- python fill_database.py
+- python fill_database.py -p (path_to_xml_file) -z True (if_xml_zipped)
 - python run.py
 
 # API
