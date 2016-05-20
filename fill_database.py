@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 id = 1
 
-file_name = 'ec_xml_feed.xml'
+file_name = './static/ec_xml_feed.xml'
 tree = ET.parse(file_name)
 root = tree.getroot()
 for product in root:
