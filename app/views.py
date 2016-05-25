@@ -32,6 +32,13 @@ def strike(text):
     result += ' '
     return result
 
+def get_font(size, bold=False):
+    if bold:
+        font_path = './static/DejaVuSans-Bold.ttf'
+    else:
+        font_path = './static/DejaVuSans.ttf'
+    return ImageFont.truetype(font_path, size)
+
 def load_image(url):
     fd = requests.get(url)
     image_file = io.BytesIO(fd.content)
@@ -43,8 +50,8 @@ def resize_image(img, output_size):
 def generate_action_item():
     action_img = Image.new('RGBA', (120, 30), (255, 255, 255, 255))
     img_w, img_h = action_img.size
-    small_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 16)
-    action_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 16)
+    small_font = get_font(16)
+    action_font = get_font(16)
     text_offset = (5, 5)
     draw = ImageDraw.Draw(action_img)
     draw.text(text_offset, 'COMPRA YA >', 'black', small_font)
@@ -67,9 +74,9 @@ def generate_image(image_url, price, product_title, free_shipping, loyality_prog
     background.paste(img, offset)
 
     draw = ImageDraw.Draw(background)
-    small_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 16)
-    large_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 22)
-    plus_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 22)
+    small_font = get_font(16)
+    large_font = get_font(22)
+    plus_font = get_font(22, bold=True)
 
     title_offset = (int(0.1*img_w), int(1.2*img_h))
     previous_price_offset = (title_offset[0], title_offset[1] + 20)
