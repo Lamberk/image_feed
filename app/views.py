@@ -7,7 +7,7 @@ from app.helpers import generate_image
 
 import random  
 
-from flask import Flask, send_file
+from flask import Flask, send_file, request
 from StringIO import StringIO
 
 
@@ -25,6 +25,11 @@ def get_rand_image():
 
 @app.route('/api/get_image/<string:sku>/', methods=['GET'])
 def get_image(sku):
+    width = int(request.args.get('width'))
+    height = int(request.args.get('height'))
+    if width and height:
+        output_size = (width, height)
+
     product = Product.query.filter_by(sku=sku).first()
     img = generate_image(
         loyality_programm = product.loyality_programm,
@@ -33,5 +38,6 @@ def get_image(sku):
         product_title = product.product_title,
         price = product.price,
         pricespecial = product.pricespecial,
+        output_size = output_size,
     )
     return serve_image(img)
