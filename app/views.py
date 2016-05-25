@@ -9,9 +9,11 @@ import urllib2 as urllib
 import xml.etree.ElementTree as ET
 import io
 import random  
+import time
 
 from flask import Flask, send_file
 from StringIO import StringIO
+
 
 def cut_title(title, font, max_pixel):
     dots_pixels = font.getsize('...')[0]
@@ -30,12 +32,13 @@ def strike(text):
     result += ' '
     return result
 
-def load_and_resize_image(url, output_size):
+def load_image(url):
     fd = urllib.urlopen(url)
     image_file = io.BytesIO(fd.read())
-    img = Image.open(image_file, 'r')
+    return Image.open(image_file, 'r')
+
+def resize_image(img, output_size):
     img.thumbnail(output_size, Image.ANTIALIAS)
-    return img
 
 def generate_action_item():
     action_img = Image.new('RGBA', (120, 30), (255, 255, 255, 255))
@@ -47,13 +50,14 @@ def generate_action_item():
     draw.text(text_offset, 'COMPRA YA >', 'black', small_font)
     action_with_border = ImageOps.expand(action_img, border=2, fill='black')
     return action_with_border
-    
+   
 def generate_image(image_url, price, product_title, free_shipping, loyality_programm, pricespecial=0, output_size=(340,340)):
     
     price_to_print = '{}$'.format(price)
     new_price_to_print = '{}$'.format(pricespecial)
     
-    img = load_and_resize_image(image_url, output_size)
+    img = load_image(image_url)
+    resize_image(img, output_size)
     img_w, img_h = img.size
     
     background = Image.new('RGBA', (int(1.2*img_w), int(1.6*img_h)), (255, 255, 255, 255))
