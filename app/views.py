@@ -5,7 +5,7 @@ from app import app, db
 from app.models import Product
 
 from PIL import ImageFont, Image, ImageOps, ImageDraw
-import urllib2 as urllib
+import requests
 import xml.etree.ElementTree as ET
 import io
 import random  
@@ -33,8 +33,8 @@ def strike(text):
     return result
 
 def load_image(url):
-    fd = urllib.urlopen(url)
-    image_file = io.BytesIO(fd.read())
+    fd = requests.get('https://www.google.ru/images/nav_logo242.png')
+    image_file = io.BytesIO(fd.content)
     return Image.open(image_file, 'r')
 
 def resize_image(img, output_size):
