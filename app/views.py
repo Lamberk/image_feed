@@ -33,7 +33,7 @@ def strike(text):
     return result
 
 def load_image(url):
-    fd = requests.get('https://www.google.ru/images/nav_logo242.png')
+    fd = requests.get(url)
     image_file = io.BytesIO(fd.content)
     return Image.open(image_file, 'r')
 
